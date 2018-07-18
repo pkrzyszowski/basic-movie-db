@@ -1,0 +1,20 @@
+*.sqlite3
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+*.orig
+
+# C extensions
+*.so
+*.mo
+
+# Distribution / packaging
+.Python
+env/
+/static/
+/lib/
+/media/
+.env
+.idea
