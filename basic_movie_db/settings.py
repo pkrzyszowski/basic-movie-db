@@ -139,8 +139,15 @@ USE_TZ = True
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_ROOT = root('media')
 MEDIA_URL = '/media/'
-STATIC_ROOT = root('static')
+STATIC_ROOT = root('staticfiles')
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    root('static'),
+)
+
+WHITENOISE_ROOT = root('staticfiles', 'root')
+
 
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
