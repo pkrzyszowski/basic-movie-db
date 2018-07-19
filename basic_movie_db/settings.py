@@ -30,7 +30,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY', default='54x3tw)3_ysrmzfx05=#sq*_cic685v4of(2mh3y3z(5+23t@*')
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -54,7 +54,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,7 +90,7 @@ WSGI_APPLICATION = 'basic_movie_db.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': root('db.sqlite3'),
     }
 }
 
@@ -136,10 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 # Static/Media
+MEDIA_ROOT = root('media')
+MEDIA_URL = '/media/'
+STATIC_ROOT = root('static')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
-STATIC_ROOT = os.path.join(BASE_DIR, "live-static-files", "static-root")
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-MEDIA_URL = os.path.join(BASE_DIR, "live-static-files", "media-root")
