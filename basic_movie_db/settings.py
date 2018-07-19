@@ -139,3 +139,7 @@ MEDIA_ROOT = root('media')
 MEDIA_URL = '/media/'
 STATIC_ROOT = root('static')
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
+}
