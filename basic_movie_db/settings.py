@@ -136,9 +136,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 # Static/Media
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_ROOT = root('media')
 MEDIA_URL = '/media/'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 STATIC_ROOT = root('staticfiles')
 STATIC_URL = '/static/'
 
@@ -146,9 +148,8 @@ STATICFILES_DIRS = (
     root('static'),
 )
 
-WHITENOISE_ROOT = root('staticfiles', 'root')
-
-
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
 }
+
+# DEBUG = True
