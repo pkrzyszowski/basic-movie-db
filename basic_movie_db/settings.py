@@ -34,7 +34,7 @@ SECRET_KEY = env('SECRET_KEY', default='54x3tw)3_ysrmzfx05=#sq*_cic685v4of(2mh3y
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -88,10 +88,14 @@ WSGI_APPLICATION = 'basic_movie_db.wsgi.application'
 
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=env('DATABASE_URL')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
+
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation

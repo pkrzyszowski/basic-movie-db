@@ -50,6 +50,5 @@ class MovieSerializer(serializers.ModelSerializer):
             print("Timeout Error:", errt)
 
     def to_representation(self, instance):
-        print(self.fields)
         self.fields['comments'] = CommentSerializer(many=True)
         return super().to_representation(instance)
