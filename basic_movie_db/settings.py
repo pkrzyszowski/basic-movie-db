@@ -12,6 +12,16 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+import dj_database_url
+import environ
+
+
+root = environ.Path(__file__) - 2  # type: collections.Callable
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env(root('.env'))  # reading .env file
+
+ROOT_PATH = root
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,10 +30,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '54x3tw)3_ysrmzfx05=#sq*_cic685v4of(2mh3y3z(5+23t@*'
+SECRET_KEY = env('SECRET_KEY', default='54x3tw)3_ysrmzfx05=#sq*_cic685v4of(2mh3y3z(5+23t@*')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -37,6 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'basic_movie_db',
+    'rest_framework',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -73,11 +86,11 @@ WSGI_APPLICATION = 'basic_movie_db.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(
+        default=env('DATABASE_URL')
+    )
 }
 
 
@@ -117,4 +130,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+# Static/Media
+MEDIA_ROOT = root('media')
+MEDIA_URL = '/media/'
+STATIC_ROOT = root('static')
 STATIC_URL = '/static/'
