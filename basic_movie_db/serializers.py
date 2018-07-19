@@ -13,15 +13,16 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class MovieSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
+
     class Meta:
         model = Movie
         fields = '__all__'
 
     def create(self, validated_data):
         title = validated_data.get('title')
-        url = 'http://www.omdbapi.com/?t={0}&apikey=8a8e17fe'.format(
-            title)
+        url = 'http://www.omdbapi.com/?t={0}&apikey=8a8e17fe'.format(title)
         external_data = self.load_movie_data(url)
+
         if external_data['Response'] == 'True':
             validated_data['actors'] = external_data.get('Actors', None)
             validated_data['year'] = external_data.get('Year', None)
@@ -33,8 +34,11 @@ class MovieSerializer(serializers.ModelSerializer):
             validated_data['plot'] = external_data.get('Plot', None)
             validated_data['language'] = external_data.get('Language', None)
         else:
-            raise NotFound(external_data)
-        return super().create(validated_data)
+            raise serializers.ValidationError(external_data)
+
+        movie, _ = Movie.objects.get_or_create(**validated_data)
+
+        return movie
 
     @staticmethod
     def load_movie_data(api_url):
