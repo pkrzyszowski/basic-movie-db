@@ -169,6 +169,8 @@ if env('AWS_ACCESS_KEY', default=None):
     INSTALLED_APPS = tuple(INSTALLED_APPS)
 
     STATIC_ROOT = root('staticfiles')
+    MEDIA_ROOT = root('media')
+
 else:
     # Static/Media
     MEDIA_ROOT = root('media')
