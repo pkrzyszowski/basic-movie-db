@@ -161,11 +161,11 @@ if env('AWS_ACCESS_KEY', default=None):
 
     # media
     MEDIAFILES_LOCATION = 'media'
-    DEFAULT_FILE_STORAGE = 'storages.MediaStorage'
+    DEFAULT_FILE_STORAGE = 'basic_movie_db.storages.MediaStorage'
 
     # static
     STATICFILES_LOCATION = 'static'
-    STATICFILES_STORAGE = 'storages.StaticStorage'
+    STATICFILES_STORAGE = 'basic_movie_db.storages.StaticStorage'
     STATIC_URL = 'https://{}.s3.amazonaws.com/static/'.format(
         AWS_STORAGE_BUCKET_NAME)
 
