@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'django_filters',
+    'storages'
 
 ]
 
@@ -147,6 +148,42 @@ MEDIA_URL = '/media/'
 
 STATIC_ROOT = root('static')
 STATIC_URL = '/static/'
+
+# AWS s3
+if env('AWS_ACCESS_KEY', default=None):
+    # general setup
+    AWS_S3_REGION_NAME = 'eu-west-1'
+    AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY')
+    AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_KEY')
+    AWS_STORAGE_BUCKET_NAME = env('AWS_BUCKET_NAME')
+
+    AWS_S3_CALLING_FORMAT = 'boto.s3.connection.OrdinaryCallingFormat'
+
+    # media
+    MEDIAFILES_LOCATION = 'media'
+    DEFAULT_FILE_STORAGE = 'api.storages.MediaStorage'
+
+    # static
+    STATICFILES_LOCATION = 'static'
+    STATICFILES_STORAGE = 'api.storages.StaticStorage'
+    STATIC_URL = 'https://{}.s3.amazonaws.com/static/'.format(
+        AWS_STORAGE_BUCKET_NAME)
+
+    # collectfast before staticfiles
+    INSTALLED_APPS = list(INSTALLED_APPS)
+    index_staticfiles = INSTALLED_APPS.index('django.contrib.staticfiles')
+    INSTALLED_APPS.insert(index_staticfiles, 'collectfast')
+    INSTALLED_APPS = tuple(INSTALLED_APPS)
+
+    STATIC_ROOT = root('staticfiles')
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
+
 
 
 REST_FRAMEWORK = {
