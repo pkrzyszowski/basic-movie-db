@@ -19,3 +19,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('movie',)
+
+    def get_queryset(self):
+        if self.kwargs.get('movies__pk', None):
+            return self.queryset.filter(movie=self.kwargs['movies__pk'])
+        return self.queryset
