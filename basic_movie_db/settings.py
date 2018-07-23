@@ -142,6 +142,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+MEDIA_ROOT = root('media')
+MEDIA_URL = '/media/'
+STATIC_ROOT = root('static')
+STATIC_URL = '/static/'
+
 # AWS s3
 if env('AWS_ACCESS_KEY', default=None):
     # general setup
@@ -151,6 +156,8 @@ if env('AWS_ACCESS_KEY', default=None):
     AWS_STORAGE_BUCKET_NAME = env('AWS_BUCKET_NAME')
 
     AWS_S3_CALLING_FORMAT = 'boto.s3.connection.OrdinaryCallingFormat'
+    AWS_QUERYSTRING_AUTH = False
+    AWS_PRELOAD_METADATA = True
 
     # media
     MEDIAFILES_LOCATION = 'media'
@@ -170,17 +177,6 @@ if env('AWS_ACCESS_KEY', default=None):
 
     STATIC_ROOT = root('staticfiles')
 
-    MEDIA_URL = 'https://{}.s3.amazonaws.com/media/'.format(
-        AWS_STORAGE_BUCKET_NAME)
-    MEDIA_ROOT = root('media')
-
-else:
-    # Static/Media
-    MEDIA_ROOT = root('media')
-    MEDIA_URL = '/media/'
-
-    STATIC_ROOT = root('static')
-    STATIC_URL = '/static/'
 
 CACHES = {
     'default': {
@@ -188,8 +184,6 @@ CACHES = {
         'LOCATION': 'unique-snowflake',
     }
 }
-
-
 
 REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
