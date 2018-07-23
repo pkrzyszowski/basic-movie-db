@@ -169,6 +169,8 @@ if env('AWS_ACCESS_KEY', default=None):
     INSTALLED_APPS = tuple(INSTALLED_APPS)
 
     STATIC_ROOT = root('staticfiles')
+    
+    MEDIA_URL = 'https://{}.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
     MEDIA_ROOT = root('media')
 
 else:
