@@ -142,13 +142,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-# Static/Media
-MEDIA_ROOT = root('media')
-MEDIA_URL = '/media/'
-
-STATIC_ROOT = root('static')
-STATIC_URL = '/static/'
-
 # AWS s3
 if env('AWS_ACCESS_KEY', default=None):
     # general setup
@@ -176,6 +169,13 @@ if env('AWS_ACCESS_KEY', default=None):
     INSTALLED_APPS = tuple(INSTALLED_APPS)
 
     STATIC_ROOT = root('staticfiles')
+else:
+    # Static/Media
+    MEDIA_ROOT = root('media')
+    MEDIA_URL = '/media/'
+
+    STATIC_ROOT = root('static')
+    STATIC_URL = '/static/'
 
 CACHES = {
     'default': {
