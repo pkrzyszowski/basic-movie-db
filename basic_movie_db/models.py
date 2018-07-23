@@ -12,6 +12,7 @@ class Movie(models.Model):
     actors = models.CharField('Actors', max_length=255, null=True, blank=True)
     plot = models.TextField('Plot', null=True, blank=True)
     language = models.CharField('Language', max_length=255, null=True, blank=True)
+    poster = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return self.title

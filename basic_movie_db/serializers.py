@@ -33,6 +33,7 @@ class MovieSerializer(serializers.ModelSerializer):
             validated_data['writer'] = external_data.get('Writer', None)
             validated_data['plot'] = external_data.get('Plot', None)
             validated_data['language'] = external_data.get('Language', None)
+            validated_data['poster'] = external_data.get('Poster', None)
         else:
             raise serializers.ValidationError(external_data)
 
