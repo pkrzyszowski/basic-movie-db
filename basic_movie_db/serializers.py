@@ -1,17 +1,21 @@
-from rest_framework import serializers
 import requests
-from rest_framework.exceptions import NotFound
+
+from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 from basic_movie_db.models import Movie, Comment
 
 
 class CommentSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Comment
         fields = '__all__'
 
 
 class MovieSerializer(serializers.ModelSerializer):
+    title = serializers.CharField(validators=[
+        UniqueValidator(queryset=Movie.objects.all(), lookup='iexact')])
     comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
