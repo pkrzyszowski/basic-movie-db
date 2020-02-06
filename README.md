@@ -21,3 +21,8 @@ python manage.py migrate
 ```
 python manage.py runserver
 ```
+
+#### App URL
+```
+https://basic-movie-db.herokuapp.com/
+```
