@@ -20,6 +20,8 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
+    url(r'^api-auth/', include('rest_framework.urls',
+                               namespace='rest_framework')),
     url('admin/', admin.site.urls),
     url(r'^', include(('basic_movie_db.urls_api', 'basic_movie_db'), namespace='api')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
