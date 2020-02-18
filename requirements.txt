@@ -20,7 +20,7 @@ django-nine==0.2.3
 django-rest-framework-nested==0.0.1
 django-rest-swagger==2.2.0
 django-storages==1.6.6
-djangorestframework==3.8.2
+djangorestframework==3.9.1
 docutils==0.14
 elasticsearch==7.5.1
 elasticsearch-dsl==7.1.0
