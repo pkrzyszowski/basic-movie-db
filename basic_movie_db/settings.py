@@ -48,8 +48,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'basic_movie_db',
+    'movies',
+    'users',
+
     'rest_framework',
+    'rest_framework.authtoken',
     'rest_framework_swagger',
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf',
     'django_filters',
     'storages'
 
@@ -95,15 +101,8 @@ WSGI_APPLICATION = 'basic_movie_db.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': root('db.sqlite3'),
-    }
-}
-
 db_from_env = dj_database_url.config()
-DATABASES['default'].update(db_from_env)
+DATABASES = {'default': db_from_env}
 
 
 # Password validation
@@ -188,7 +187,18 @@ CACHES = {
 REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
+    'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day'
+    }
 }
 
 DEBUG = True
@@ -198,4 +208,23 @@ SWAGGER_SETTINGS = {
     'DOC_EXPANSION': 'list',
     'APIS_SORTER': 'alpha',
     'SECURITY_DEFINITIONS': None,
+}
+
+OMDB_API_KEY = env('OMDB_API_KEY')
+
+AUTH_USER_MODEL = 'users.User'
+
+CELERY_IGNORE_RESULT = False  # this is less important
+CELERY_TRACK_STARTED = True
+CELERY_RESULT_BACKEND = env('REDIS_URL', default='redis://localhost:6379/')
+CELERY_BROKER_URL = env('REDIS_URL', default='redis://localhost:6379/')
+CELERY_ACCEPT_CONTENT = ['pickle']
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_RESULT_SERIALIZER = 'pickle'
+CELERY_APP = 'basic_movie_db.celery.app'
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
 }
